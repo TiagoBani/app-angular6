@@ -6,26 +6,41 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class FuncionarioService {
 
-  dataFuncionarios: any[] = ['func1', 'func2'];
+  dataFuncionarios: Object[] = [];
 
   url = '/api/v1/funcionario/users';
 
   headers: HttpHeaders = new HttpHeaders({
     'X-API-KEY': 'api_key',
-    'Authorization': 'Basic senha_base64'
+    'Authorization': `Basic ${(btoa('login:senha'))}`
   });
 
-  api: any;
-
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient
+  ) {
+  }
+  pega(data: any)  {
+    this.dataFuncionarios = this.objToArray(data.resource.funcionarios);
+    console.log(this.dataFuncionarios);
   }
 
-  getFuncionarios() {
-    this.api = this.http.get(this.url, {headers: this.headers})
-    .subscribe((data) => console.log(data),
-      (error) => console.log(error)
-    );
+  objToArray(data: object) {
+    return Object.entries(data).map(([type , value]) => ({type , value}));
+  }
 
-    return this.dataFuncionarios;
+  getService(url: string): Promise<any> {
+      return this.http
+          .get(url, {headers: this.headers})
+          .toPromise()
+          .then(this.extractData)
+          .catch(this.handleError);
+  }
+  private extractData(res: Response) {
+      const body = res;
+      return body || {};
+  }
+  private handleError(error: any): Promise<any> {
+      console.error('An error occurred', error);
+      return Promise.reject(error.message || error);
   }
 }
