@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { FuncionarioModule } from './funcionario/funcionario.module';
+import { ConnectionService } from './shared/connection.service';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,7 @@ import { FuncionarioModule } from './funcionario/funcionario.module';
     HttpClientModule,
     FuncionarioModule
   ],
-  providers: [],
+  providers: [ConnectionService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

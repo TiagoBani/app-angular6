@@ -1,7 +1,19 @@
+<h5>Resultado: </h5>
 <div>
     <ul>
-      <li *ngFor="let funcionario of funcionarios, let i = index" >
-          {{ i + 1 }} - {{ funcionario }} 
+      <li *ngFor="let funcionario of funcionarios, let i = index" >          
+        {{ funcionario.type }} 
+        <ul>
+            <li *ngFor="let metodo of funcionario.value" >
+                Funcionario: {{ metodo.nome }}
+                <br>
+                <ul>
+                    <li *ngFor="let position of objKey(metodo)" >
+                        {{ position }} - {{ metodo[position] }}
+                    </li>
+                </ul>
+            </li>
+        </ul>
       </li>
     </ul>
 </div>

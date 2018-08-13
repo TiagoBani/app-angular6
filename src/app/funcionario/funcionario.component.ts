@@ -1,13 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FuncionarioService } from './funcionario.service';
+import { FuncionarioService } from './funcionario-servico/funcionario.service';
 
 @Component({
   selector: 'app-funcionario',
   templateUrl: './funcionario.component.html',
-  styleUrls: ['./funcionario.component.css'],
-  providers: [
-    FuncionarioService
-  ]
+  styleUrls: ['./funcionario.component.css']
 })
 export class FuncionarioComponent implements OnInit {
 
@@ -16,6 +13,21 @@ export class FuncionarioComponent implements OnInit {
   constructor(private funcionarioService: FuncionarioService) {  }
 
   ngOnInit() {
-    this.funcionarios = this.funcionarioService.getFuncionarios();
+    this.funcionarioService.getFuncionarios('users');
+
+    this.funcionarioService.dados.subscribe(
+      data => this.funcionarios = this.objToArray(data.resource.funcionarios)
+    );
   }
+
+  /**
+   * Apenas para exibir na tela
+  */
+  objToArray(data: object) {
+    return Object.entries(data).map(([type , value]) => ({type , value}));
+  }
+  objKey(data: object) {
+    return Object.keys(data);
+  }
+
 }
