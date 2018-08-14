@@ -1,4 +1,4 @@
 export const CONFIG = {
-    'X-API-KEY' : 'apikey',
-    'Authorization' : 'Basic btoa(login:senha)'
+    'X-API-KEY' : 'api_key',
+    'Authorization' : `Basic ${btoa('matricula:senha')}`
 };

@@ -9,12 +9,18 @@ export class FuncionarioService {
   dados = new EventEmitter();
   resource = '/v1/funcionario/';
 
-  constructor(private connectionService: ConnectionService) { }
+  constructor(private connectionService: ConnectionService) {  }
 
   getFuncionarios(msg: String) {
-    this.connectionService.getService(`${this.resource}${msg}`);
-    this.connectionService.result.subscribe(
-      result => this.dados.emit(result)
-    );
+
+    if (localStorage.token) {
+      this.connectionService.getService(`${this.resource}${msg}`);
+      this.connectionService.result.subscribe(
+        result => this.dados.emit(result)
+      );
+    } else {
+      this.connectionService.getAuth();
+      this.connectionService.auth.subscribe( data => !data['request']['auth_error'] ? this.getFuncionarios(msg) : null );
+    }
   }
 }
