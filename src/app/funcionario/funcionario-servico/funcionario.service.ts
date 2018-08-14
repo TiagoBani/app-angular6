@@ -7,6 +7,7 @@ import { ConnectionService } from '../../shared/connection.service';
 export class FuncionarioService {
 
   dados = new EventEmitter();
+  result = new EventEmitter();
   resource = '/v1/funcionario/';
 
   constructor(private connectionService: ConnectionService) {  }
@@ -20,7 +21,10 @@ export class FuncionarioService {
       );
     } else {
       this.connectionService.getAuth();
-      this.connectionService.auth.subscribe( data => !data['request']['auth_error'] ? this.getFuncionarios(msg) : null );
+      this.connectionService.auth.subscribe(
+         data => !data['request']['auth_error'] ? this.getFuncionarios(msg) :
+                                                  this.result.emit(data['request']['auth_error'])
+      );
     }
   }
 }

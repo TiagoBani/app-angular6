@@ -9,6 +9,7 @@ import { FuncionarioService } from './funcionario-servico/funcionario.service';
 export class FuncionarioComponent implements OnInit {
 
   funcionarios: any[] = [];
+  private error: Object = {result: false, msg: ''};
 
   constructor(private funcionarioService: FuncionarioService) {  }
 
@@ -18,6 +19,8 @@ export class FuncionarioComponent implements OnInit {
     this.funcionarioService.dados.subscribe(
       data => this.funcionarios = this.objToArray(data.resource.funcionarios)
     );
+
+    this.funcionarioService.result.subscribe(msg => this.error = {result: true, msg: msg});
   }
 
   /**

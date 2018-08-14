@@ -18,6 +18,9 @@ export class ConnectionService {
 
   constructor( private http: HttpClient) {
     this.setHeader();
+
+    this.getAuth();
+    this.auth.subscribe(data => console.log(data));
   }
 
   setHeader() {
