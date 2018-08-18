@@ -11,35 +11,32 @@ export class ConnectionService {
   public result = new EventEmitter();
   public auth = new EventEmitter();
 
-  private headers: HttpHeaders;
-
   private api_key: string = CONFIG['X-API-KEY'];
-  private authorization: string = CONFIG['Authorization'];
 
-  constructor( private http: HttpClient) {
-    this.setHeader();
+  constructor( private http: HttpClient) {  }
 
-    this.getAuth();
-    this.auth.subscribe(data => console.log(data));
-  }
-
-  setHeader() {
-    this.headers = new HttpHeaders({
+  setHeader(): HttpHeaders {
+    return new HttpHeaders({
       'X-API-KEY': this.api_key,
-      'Authorization': this.authorization,
+      'Authorization': localStorage.getItem('Authorization'),
       'APP_TOKEN': `Bearer ${localStorage.getItem('token')}`
     });
   }
 
   getService(url: string) {
-    this.http.get(`/api${url}`, {headers: this.headers})
+    if (!localStorage.token) {
+      this.getAuth();
+      this.auth.subscribe( data => this.getService(url) );
+    } else {
+      this.http.get(`/api${url}`, {headers: this.setHeader()})
       .subscribe(
         data => this.result.emit(data),
         error => console.log(error)
       );
+    }
   }
   getAuth() {
-    this.http.get(`/api/v1/authentication/auth`, {headers: this.headers})
+    this.http.get(`/api/v1/authentication/auth`, {headers: this.setHeader()})
       .subscribe(
         data => this.getToken(data),
         error => console.log(error)
