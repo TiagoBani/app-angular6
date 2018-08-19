@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 
 import { FuncionarioComponent } from './funcionario.component';
 import { FuncionarioService } from './funcionario-servico/funcionario.service';
+import { KeysPipe } from '../pipes/keys.pipe';
 
 @NgModule({
   imports: [
@@ -11,7 +12,8 @@ import { FuncionarioService } from './funcionario-servico/funcionario.service';
     FormsModule
   ],
   declarations: [
-    FuncionarioComponent
+    FuncionarioComponent,
+    KeysPipe
   ],
   exports: [
     FuncionarioComponent

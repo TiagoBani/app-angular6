@@ -17,18 +17,7 @@ export class FuncionarioComponent implements OnInit {
     this.funcionarioService.getFuncionarios('users');
 
     this.funcionarioService.dados.subscribe(
-      data => this.funcionarios = this.objToArray(data)
+      data => this.funcionarios = data // this.objToArray(data)
     );
   }
-
-  /**
-   * Apenas para exibir na tela
-  */
-  objToArray(data: object) {
-    return Object.entries(data).map(([type , value]) => ({type , value}));
-  }
-  objKey(data: object) {
-    return Object.keys(data);
-  }
-
 }
