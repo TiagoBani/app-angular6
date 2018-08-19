@@ -9,7 +9,7 @@ import { CONFIG } from '../config';
 export class ConnectionService {
 
   public result = new EventEmitter();
-  public auth = new EventEmitter();
+  private auth = new EventEmitter();
 
   private api_key: string = CONFIG['X-API-KEY'];
 
@@ -38,16 +38,15 @@ export class ConnectionService {
   getAuth() {
     this.http.get(`/api/v1/authentication/auth`, {headers: this.setHeader()})
       .subscribe(
-        data => this.getToken(data),
+        data => {
+          if (data['resource']) {
+            localStorage.setItem('token', data['resource']['token']);
+            this.auth.emit(data);
+          } else {
+            console.log( data['request']['auth_error'] );
+          }
+        },
         error => console.log(error)
       );
-  }
-  private getToken(token: Object) {
-    if (token['resource']) {
-      localStorage.setItem('token', token['resource']['token']);
-    } else {
-      console.log(token['request']['auth_error']);
-    }
-    this.auth.emit(token);
   }
 }
