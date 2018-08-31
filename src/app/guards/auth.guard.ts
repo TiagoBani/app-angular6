@@ -1,7 +1,8 @@
-import { LoginService } from './../login/login.service';
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router, Route } from '@angular/router';
 import { Observable } from 'rxjs';
+
+import { LoginService } from './../login/login.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -13,8 +14,17 @@ export class AuthGuard implements CanActivate {
         route: ActivatedRouteSnapshot,
         state: RouterStateSnapshot
     ): Observable<boolean>|Promise<boolean>|boolean {
-
-        if (!this.verificarResultadoLogin()) {
+        return this.validaRota(this.router);
+    }
+    canLoad(route: Route): Observable<boolean>|Promise<boolean>|boolean {
+        return this.validaRota(this.router);
+    }
+    validaRota(router: Router) {
+        if (!this.verificarResultadoLogin() ||
+            this.loginService.getToken() === undefined ||
+            this.loginService.getToken() === null
+        ) {
+            this.loginService.retirarAutenticado();
             this.router.navigate(['/login']);
             return false;
         }

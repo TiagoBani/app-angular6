@@ -1,7 +1,7 @@
 import { Injectable, EventEmitter } from '@angular/core';
 
 import { ConnectionService } from '../shared/connection.service';
-import { Usuario } from './usuario';
+import { Usuario } from '../models/usuario';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +19,7 @@ export class LoginService {
   constructor( private connectionService: ConnectionService ) { }
 
   getAuth(usuario: Usuario) {
-    this.connectionService.getService(`${this.resource}auth`, this.getHeader(usuario) );
+    this.connectionService.getService(`${this.resource}auth`, this.getHeader( usuario) );
     this.connectionService.result.subscribe(
         result => {
           if (result['resource']) {
@@ -46,10 +46,14 @@ export class LoginService {
     return this.token;
   }
   verificaAutenticado() {
-    console.log(`verificaAutenticado: ${this.auth}`);
+    return this.auth;
+  }
+  retirarAutenticado() {
+    this.auth = !this.auth;
+    this.autenticado.emit(false);
     return this.auth;
   }
   private getHeader(usuario: Usuario ) {
-    return this.connectionService.setHeader(usuario);
+    return this.connectionService.setHeader(null, usuario);
   }
 }

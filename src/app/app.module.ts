@@ -6,7 +6,6 @@ import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
 
 import { AppRoutingModule } from './app.routing.module';
-// import { FuncionarioModule } from './funcionario/funcionario.module';
 import { AuthGuard } from './guards/auth.guard';
 import { ConnectionService } from './shared/connection.service';
 import { LoginService } from './login/login.service';
@@ -31,7 +30,6 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     AppRoutingModule,
     FormsModule,
     MaterializeModule,
-    // FuncionarioModule
   ],
   providers: [
     ConnectionService,

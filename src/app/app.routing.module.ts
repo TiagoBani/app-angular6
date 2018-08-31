@@ -9,9 +9,10 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 
 const appRoute: Routes = [
     {
-        path: '',
+        path: 'home',
         component: HomeComponent,
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard],
+        canLoad: [AuthGuard]
     },
     {
         path: 'login',
@@ -20,7 +21,13 @@ const appRoute: Routes = [
     {
         path: 'funcionario',
         loadChildren: './funcionario/funcionario.module#FuncionarioModule',
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard],
+        canLoad: [AuthGuard]
+    },
+    {
+        path: '',
+        redirectTo: 'home',
+        pathMatch: 'full'
     },
     {
         path: '**',

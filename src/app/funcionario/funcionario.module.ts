@@ -4,8 +4,11 @@ import { FormsModule } from '@angular/forms';
 
 import { FuncionarioRoutingModule } from './funcionario.routing.module';
 import { FuncionarioComponent } from './funcionario.component';
-import { FuncionarioService } from './funcionario-servico/funcionario.service';
+import { FuncionarioService } from './funcionario.service';
+
 import { KeysPipe } from '../pipes/keys.pipe';
+import { FuncionarioDetalheComponent } from './funcionario-detalhe/funcionario-detalhe.component';
+import { FuncionarioGuard } from '../guards/funcionario.guard';
 
 @NgModule({
   imports: [
@@ -15,13 +18,15 @@ import { KeysPipe } from '../pipes/keys.pipe';
   ],
   declarations: [
     FuncionarioComponent,
-    KeysPipe
+    KeysPipe,
+    FuncionarioDetalheComponent
   ],
   exports: [
-    FuncionarioComponent
+    // FuncionarioComponent
   ],
   providers: [
-    FuncionarioService
+    FuncionarioService,
+    FuncionarioGuard
   ]
 
 })
