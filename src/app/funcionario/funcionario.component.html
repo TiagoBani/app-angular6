@@ -4,7 +4,7 @@
         <div class="collection">
             <a class="collection-item" 
                 routerLinkActive="active" 
-                *ngFor="let funcionario of funcionarios.insert | keys: 'array' "
+                *ngFor="let funcionario of funcionarios | keys: 'array' "
                 [routerLink]="[ funcionario.valor.matricula ]"  
             >{{ funcionario.valor.nome }}</a>
         </div>

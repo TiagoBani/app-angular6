@@ -3,11 +3,13 @@ import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router, Route
 import { Observable } from 'rxjs';
 
 import { LoginService } from './../login/login.service';
+import { ConnectionService } from './../shared/connection.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
     constructor(
         private loginService: LoginService,
+        private connectionService: ConnectionService,
         private router: Router
     ) {}
     canActivate(
@@ -21,8 +23,8 @@ export class AuthGuard implements CanActivate {
     }
     validaRota(router: Router) {
         if (!this.verificarResultadoLogin() ||
-            this.loginService.getToken() === undefined ||
-            this.loginService.getToken() === null
+            this.connectionService.getToken() === undefined ||
+            this.connectionService.getToken() === null
         ) {
             this.loginService.retirarAutenticado();
             this.router.navigate(['/login']);

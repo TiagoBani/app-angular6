@@ -1,12 +1,18 @@
 <p>Detalhe do funcionario</p>
 <div *ngIf="resultado; else naoEncontrado">
-  <div *ngFor="let funcionario of funcionarios | keys: 'array' ">  
-    <p>Metodo: {{ funcionario.type }}</p>
-    <div class="collection" *ngFor="let metodo of funcionario.valor">
-      <a class="collection-item" *ngFor="let position of metodo | keys: 'key'">
-        {{ position }} - {{ metodo[position] }}
-      </a>
-    </div>
+  <div>  
+    <ul class="collection">
+      <li class="collection-item avatar">
+        <i class="material-icons circle">account_box</i>
+        <span class="title">Nome: {{ funcionario.nome }}</span>
+        <p>Login: {{ funcionario.id_funcionario }}</p>
+        <p>Matricula: {{ funcionario.matricula }}</p>
+        <p>Data de Nascimento: {{ funcionario.nascimento }}</p>
+        <p>Filial: {{ funcionario.filial }}</p>
+        <p>Perfil: {{ funcionario.perfil }}</p>
+        <p>Senha: {{ funcionario.senha }}</p>
+      </li>
+    </ul>
   </div>      
 </div>
 <ng-template #naoEncontrado>

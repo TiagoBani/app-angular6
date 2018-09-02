@@ -1,8 +1,8 @@
-import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-import { FuncionarioService } from './../funcionario.service';
+import { Funcionario } from './../../models/funcionario';
 
 @Component({
   selector: 'app-funcionario-detalhe',
@@ -11,39 +11,21 @@ import { FuncionarioService } from './../funcionario.service';
 })
 export class FuncionarioDetalheComponent implements OnInit, OnDestroy {
 
-  matricula: String;
-  funcionarios: any[] = [];
+  funcionario: Funcionario;
+
   private resultado: Boolean = false;
   private inscricao: Subscription;
-  private inscricao2: Subscription;
 
-  constructor(
-    private funcionarioService: FuncionarioService,
-    private route: ActivatedRoute
-  ) { }
+  constructor( private route: ActivatedRoute ) { }
 
   ngOnInit() {
-    this.inscricao = this.route.params.subscribe(
-      params => {
-        this.matricula = params['matricula'];
-        this.pegaFuncionario(this.matricula);
-      }
-    );
-    this.inscricao2 = this.funcionarioService.dados.subscribe(
-      data => {
-        this.funcionarios = data;
-        this.resultado = data.insert ? true : false ;
-
-        console.log(data);
-      }
-    );
-  }
-  pegaFuncionario(params) {
-    this.funcionarioService.getFuncionario(`users/${params}`);
+    this.inscricao = this.route.data.subscribe(
+      ( params: { funcionario: Funcionario }  ) => {
+      this.funcionario = params.funcionario;
+      this.resultado = this.funcionario !== null || this.funcionario !== undefined ? true : false;
+    });
   }
   ngOnDestroy() {
     this.inscricao.unsubscribe();
-    this.inscricao2.unsubscribe();
   }
-
 }

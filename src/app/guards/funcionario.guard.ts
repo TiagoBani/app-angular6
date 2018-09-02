@@ -1,16 +1,10 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, RouterStateSnapshot, CanActivateChild, Router } from '@angular/router';
+import { ActivatedRouteSnapshot, RouterStateSnapshot, CanActivateChild } from '@angular/router';
 import { Observable } from 'rxjs';
-
-import { FuncionarioService } from './../funcionario/funcionario.service';
 
 @Injectable()
 export class FuncionarioGuard implements CanActivateChild {
-    constructor(
-        private funcionarioService: FuncionarioService,
-        private router: Router
-    ) {
-    }
+    constructor() { }
     canActivateChild(
         route: ActivatedRouteSnapshot,
         state: RouterStateSnapshot

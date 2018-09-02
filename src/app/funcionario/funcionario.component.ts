@@ -1,8 +1,8 @@
-import { LoginService } from './../login/login.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { FuncionarioService } from './funcionario.service';
+import { Funcionario } from './../models/funcionario';
 
 @Component({
   selector: 'app-funcionario',
@@ -11,28 +11,15 @@ import { FuncionarioService } from './funcionario.service';
 })
 export class FuncionarioComponent implements OnInit, OnDestroy {
 
-  funcionarios: any[] = [];
+  funcionarios: Funcionario[] = [];
   private inscricao: Subscription;
 
-  constructor(
-    private funcionarioService: FuncionarioService,
-    private loginService: LoginService
-  ) {  }
+  constructor( private funcionarioService: FuncionarioService ) { }
 
   ngOnInit() {
     this.inscricao = this.funcionarioService.dados.subscribe(
-      data => {
-        this.funcionarios = data;
-      }
+      () => this.funcionarios = this.funcionarioService.funcionarios
     );
-    this.pegaFuncionarios();
-  }
-  pegaFuncionarios() {
-    this.funcionarioService.getFuncionarios(`users`);
-  }
-  pegaFuncionario() {
-    const usuario = this.loginService.getUsuario();
-    this.funcionarioService.getFuncionario(`users/${usuario.matricula}`);
   }
   ngOnDestroy() {
     this.inscricao.unsubscribe();

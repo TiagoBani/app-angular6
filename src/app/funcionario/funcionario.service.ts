@@ -2,37 +2,36 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { HttpHeaders } from '@angular/common/http';
 
 import { ConnectionService } from '../shared/connection.service';
-import { LoginService } from '../login/login.service';
+import { Funcionario } from '../models/funcionario';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FuncionarioService {
 
-  token: string;
   header: HttpHeaders;
   dados = new EventEmitter();
   resource = '/v1/funcionario/';
+  funcionarios: Funcionario[] = [];
 
-  constructor(
-    private connectionService: ConnectionService,
-    private loginService: LoginService,
-  ) {  }
+  constructor( private connectionService: ConnectionService ) { }
 
   getFuncionarios(msg: String ) {
-    this.token = this.loginService.getToken();
-    this.header = this.connectionService.setHeader( this.token );
-
+    this.header = this.connectionService.setHeader();
     this.connectionService.getService(`${this.resource}${msg}`, this.header);
     this.connectionService.result.subscribe(
         result => {
           if (result.resource) {
-            this.dados.emit(result.resource.funcionarios);
+            this.funcionarios = result.resource.funcionarios.insert;
+            this.dados.emit(true);
+          } else {
+            console.log(`${result}`);
           }
         }
       );
   }
-  getFuncionario(msg: String) {
-    this.getFuncionarios(msg);
+  getFuncionario(matricula: String): Funcionario {
+    const filtrado = this.funcionarios.filter( c => c.matricula === matricula );
+    return filtrado[0] ? filtrado[0] : null ;
   }
 }

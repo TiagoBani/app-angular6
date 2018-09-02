@@ -10,6 +10,9 @@ import { KeysPipe } from '../pipes/keys.pipe';
 import { FuncionarioDetalheComponent } from './funcionario-detalhe/funcionario-detalhe.component';
 import { FuncionarioGuard } from '../guards/funcionario.guard';
 
+import { FuncionarioResolver } from './guards/funcionario.resolver';
+import { FuncionarioDetalheResolver } from './guards/funcionario-detalhe.resolver';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -26,7 +29,9 @@ import { FuncionarioGuard } from '../guards/funcionario.guard';
   ],
   providers: [
     FuncionarioService,
-    FuncionarioGuard
+    FuncionarioGuard,
+    FuncionarioResolver,
+    FuncionarioDetalheResolver,
   ]
 
 })

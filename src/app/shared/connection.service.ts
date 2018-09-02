@@ -13,28 +13,27 @@ export class ConnectionService {
   public auth = new EventEmitter();
 
   private token: string;
-  private usuario: Usuario = new Usuario();
-
   private api_key: string = CONFIG['X-API-KEY'];
 
   constructor( private http: HttpClient) {  }
 
-  setHeader(token: string, usuario?: Usuario ): HttpHeaders {
-    if (!usuario) {
-      this.token = token !== '' && token !== undefined && token !== null ? token : this.token;
-      return new HttpHeaders({
-        'X-API-KEY': this.api_key,
-        'APP_TOKEN': `Bearer ${this.token}`
-      });
-    }
+  getToken() {
+    return this.token;
+  }
+  setToken(token: string) {
+    this.token = token;
+  }
+  setHeader(usuario?: Usuario ): HttpHeaders {
     if (usuario && typeof(usuario) === 'object') {
-      this.usuario = usuario;
       return new HttpHeaders({
         'X-API-KEY': this.api_key,
-        'Authorization': `Basic ${btoa(`${this.usuario.matricula}:${this.usuario.senha}`)}`
+        'Authorization': `Basic ${btoa(`${usuario.matricula}:${usuario.senha}`)}`
       });
     }
-    return null;
+    return new HttpHeaders({
+      'X-API-KEY': this.api_key,
+      'APP_TOKEN': `Bearer ${this.token}`
+    });
   }
   getService(url: string, header: HttpHeaders) {
     this.http.get(`/api${url}`, {headers: header})
