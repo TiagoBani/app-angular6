@@ -17,28 +17,6 @@ export class LoginService {
 
   constructor( private connectionService: ConnectionService ) { }
 
-  getAuth(usuario: Usuario) {
-    const header = this.connectionService.setHeader(usuario);
-    this.connectionService.getService(`${this.resource}auth`, header );
-    this.connectionService.result.subscribe(
-        result => {
-          if (result['resource']) {
-            this.usuario = usuario;
-            this.connectionService.setToken(result['resource']['token']);
-
-            this.dados.emit('Logado com sucesso');
-            this.auth = true;
-            this.autenticado.emit(true);
-          } else {
-            console.log(result);
-
-            this.auth = false;
-            this.autenticado.emit(false);
-            this.dados.emit(result['request']['auth_error']);
-          }
-        }
-      );
-  }
   getUsuario() {
     return this.usuario;
   }
@@ -49,5 +27,36 @@ export class LoginService {
     this.auth = !this.auth;
     this.autenticado.emit(false);
     return this.auth;
+  }
+  getAuth(usuario: Usuario) {
+    const header = this.connectionService.setHeader(usuario);
+    this.connectionService.getService(`${this.resource}auth`, header );
+    this.getConecta(usuario);
+  }
+  private getConecta(usuario: Usuario) {
+    this.connectionService.result.subscribe(
+      result => {
+        if (result.resource) {
+          if (result.resource.token) {
+            this.usuario = usuario;
+            this.connectionService.setToken(result.resource.token);
+
+            this.dados.emit('Logado com sucesso');
+            this.auth = true;
+            this.autenticado.emit(true);
+          }
+        } else {
+          if ( result.request ) {
+            if (result.request.auth_error) {
+              this.dados.emit(result.request.auth_error);
+            }
+          }
+          this.auth = false;
+          this.autenticado.emit(false);
+
+          console.log(result);
+        }
+      }
+    );
   }
 }

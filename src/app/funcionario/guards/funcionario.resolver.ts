@@ -14,7 +14,6 @@ export class FuncionarioResolver implements Resolve<Funcionario> {
         route: ActivatedRouteSnapshot,
         state: RouterStateSnapshot
         ): Observable<any>|Promise<any>|any {
-            this.funcionarioService.getFuncionarios(`users`);
-            return true;
+            return this.funcionarioService.getFuncionarios(`users`);
     }
 }

@@ -22,8 +22,10 @@ export class FuncionarioService {
     this.connectionService.result.subscribe(
         result => {
           if (result.resource) {
-            this.funcionarios = result.resource.funcionarios.insert;
-            this.dados.emit(true);
+            if ( result.resource.funcionarios ) {
+              this.funcionarios = result.resource.funcionarios.insert;
+              this.dados.emit(true);
+            }
           } else {
             console.log(`${result}`);
           }
