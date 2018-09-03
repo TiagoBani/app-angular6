@@ -1,4 +1,5 @@
 import { Injectable, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { ConnectionService } from '../shared/connection.service';
 import { Usuario } from '../models/usuario';
@@ -15,7 +16,10 @@ export class LoginService {
   private auth: Boolean = false;
   private usuario: Usuario = new Usuario();
 
-  constructor( private connectionService: ConnectionService ) { }
+  constructor(
+    private connectionService: ConnectionService,
+    private router: Router
+  ) { }
 
   getUsuario() {
     return this.usuario;
@@ -44,6 +48,7 @@ export class LoginService {
             this.dados.emit('Logado com sucesso');
             this.auth = true;
             this.autenticado.emit(true);
+            this.router.navigate(['/']);
           }
         } else {
           if ( result.request ) {
@@ -53,7 +58,7 @@ export class LoginService {
           }
           this.auth = false;
           this.autenticado.emit(false);
-
+          this.router.navigate(['/login']);
           console.log(result);
         }
       }
