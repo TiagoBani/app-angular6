@@ -1,8 +1,8 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { HttpHeaders } from '@angular/common/http';
 
-import { ConnectionService } from '../shared/connection.service';
-import { Funcionario } from '../models/funcionario';
+import { Funcionario } from '../shared/models/funcionario';
+import { ConnectionService } from './../shared/service/connection.service';
 
 @Injectable({
   providedIn: 'root'

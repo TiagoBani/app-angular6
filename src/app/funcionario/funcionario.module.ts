@@ -6,12 +6,12 @@ import { FuncionarioRoutingModule } from './funcionario.routing.module';
 import { FuncionarioComponent } from './funcionario.component';
 import { FuncionarioService } from './funcionario.service';
 
-import { KeysPipe } from '../pipes/keys.pipe';
 import { FuncionarioDetalheComponent } from './funcionario-detalhe/funcionario-detalhe.component';
 import { FuncionarioGuard } from '../guards/funcionario.guard';
 
 import { FuncionarioResolver } from './guards/funcionario.resolver';
 import { FuncionarioDetalheResolver } from './guards/funcionario-detalhe.resolver';
+import { KeysPipe } from '../shared/pipes/keys.pipe';
 
 @NgModule({
   imports: [

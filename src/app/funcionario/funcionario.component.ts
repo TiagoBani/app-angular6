@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { FuncionarioService } from './funcionario.service';
-import { Funcionario } from './../models/funcionario';
+import { Funcionario } from '../shared/models/funcionario';
 
 @Component({
   selector: 'app-funcionario',

@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { LoginService } from './login.service';
 import { Subscription } from 'rxjs';
-import { Usuario } from '../models/usuario';
+import { Usuario } from '../shared/models/usuario';
 
 @Component({
   selector: 'app-login',

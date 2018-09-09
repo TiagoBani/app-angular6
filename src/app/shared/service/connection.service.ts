@@ -1,8 +1,8 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { CONFIG } from '../config';
 import { Usuario } from '../models/usuario';
+import { CONFIG } from './../../config';
 
 @Injectable({
   providedIn: 'root'

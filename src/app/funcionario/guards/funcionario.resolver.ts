@@ -3,7 +3,7 @@ import { ActivatedRouteSnapshot, RouterStateSnapshot, Resolve } from '@angular/r
 import { Observable } from 'rxjs';
 
 import { FuncionarioService } from '../funcionario.service';
-import { Funcionario } from './../../models/funcionario';
+import { Funcionario } from '../../shared/models/funcionario';
 
 @Injectable()
 export class FuncionarioResolver implements Resolve<Funcionario> {

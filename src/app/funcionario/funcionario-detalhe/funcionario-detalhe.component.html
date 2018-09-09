@@ -1,6 +1,6 @@
 <p>Detalhe do funcionario</p>
 <div *ngIf="resultado; else naoEncontrado">
-  <div>  
+  <div>
     <ul class="collection">
       <li class="collection-item avatar">
         <i class="material-icons circle">account_box</i>
@@ -13,7 +13,7 @@
         <p>Senha: {{ funcionario.senha }}</p>
       </li>
     </ul>
-  </div>      
+  </div>
 </div>
 <ng-template #naoEncontrado>
   <div>

@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-import { Funcionario } from './../../models/funcionario';
+import { Funcionario } from '../../shared/models/funcionario';
 
 @Component({
   selector: 'app-funcionario-detalhe',
@@ -13,7 +13,7 @@ export class FuncionarioDetalheComponent implements OnInit, OnDestroy {
 
   funcionario: Funcionario;
 
-  private resultado: Boolean = false;
+  public resultado: Boolean = false;
   private inscricao: Subscription;
 
   constructor( private route: ActivatedRoute ) { }

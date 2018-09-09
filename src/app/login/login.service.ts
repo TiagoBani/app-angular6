@@ -1,8 +1,8 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { ConnectionService } from '../shared/connection.service';
-import { Usuario } from '../models/usuario';
+import { ConnectionService } from './../shared/service/connection.service';
+import { Usuario } from '../shared/models/usuario';
 
 @Injectable({
   providedIn: 'root'
