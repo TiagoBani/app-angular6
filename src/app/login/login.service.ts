@@ -8,19 +8,25 @@ import { Usuario } from '../shared/models/usuario';
   providedIn: 'root'
 })
 export class LoginService {
-
-  dados = new EventEmitter();
   private resource = '/v1/authentication/';
+
+  public dados = new EventEmitter();
 
   public autenticado = new EventEmitter<Boolean>();
   private auth: Boolean = false;
+
+  /*Dados do usuario*/
   private usuario: Usuario = new Usuario();
+  private token: string;
 
   constructor(
     private connectionService: ConnectionService,
     private router: Router
-  ) { }
+  ) {}
 
+  getToken() {
+    return this.token;
+  }
   getUsuario() {
     return this.usuario;
   }
@@ -28,40 +34,39 @@ export class LoginService {
     return this.auth;
   }
   retirarAutenticado() {
-    this.auth = !this.auth;
+    this.auth = false;
     this.autenticado.emit(false);
+
+    this.router.navigate(['/login']);
     return this.auth;
   }
-  getAuth(usuario: Usuario) {
-    const header = this.connectionService.setHeader(usuario);
-    this.connectionService.getService(`${this.resource}auth`, header );
-    this.getConecta(usuario);
+  private validaAutenticado() {
+    this.dados.emit('Logado com sucesso');
+    this.auth = true;
+    this.autenticado.emit(true);
+    this.router.navigate(['/']);
   }
-  private getConecta(usuario: Usuario) {
-    this.connectionService.result.subscribe(
-      result => {
-        if (result.resource) {
-          if (result.resource.token) {
-            this.usuario = usuario;
-            this.connectionService.setToken(result.resource.token);
-
-            this.dados.emit('Logado com sucesso');
-            this.auth = true;
-            this.autenticado.emit(true);
-            this.router.navigate(['/']);
-          }
-        } else {
-          if ( result.request ) {
-            if (result.request.auth_error) {
-              this.dados.emit(result.request.auth_error);
-            }
-          }
-          this.auth = false;
-          this.autenticado.emit(false);
-          this.router.navigate(['/login']);
-          console.log(result);
-        }
+  getAuth(usuario: Usuario) {
+    const header = this.connectionService.setHeaderUsuario(usuario);
+    this.connectionService
+      .getService(`${this.resource}auth`, header)
+      .subscribe(
+        data => this.getConecta(data, usuario),
+        error => console.log(error)
+      );
+  }
+  private getConecta(response, usuario: Usuario) {
+    if (response.resource) {
+      this.usuario = usuario;
+      this.token = response.resource.token;
+      this.validaAutenticado();
+    } else {
+      if (response.request.auth_error) {
+        alert(`Login ou senha invalidos!`);
+        this.dados.emit(response.request.auth_error);
       }
-    );
+      this.retirarAutenticado();
+      console.log(response);
+    }
   }
 }

@@ -10,20 +10,19 @@ import { Usuario } from '../shared/models/usuario';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit, OnDestroy {
-
   private usuario: Usuario = new Usuario();
   private resultado: any;
 
   private inscricao: Subscription;
 
-  constructor(private loginService: LoginService ) { }
+  constructor(private loginService: LoginService) {}
 
   ngOnInit() {
     this.usuario = this.loginService.getUsuario();
     this.inscricao = this.loginService.dados.subscribe(data => {
       this.resultado = data;
       console.log(this.resultado);
-     });
+    });
   }
 
   logar() {
