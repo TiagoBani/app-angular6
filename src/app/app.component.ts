@@ -20,9 +20,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.authLogin = !data;
     });
   }
-  getAuthLogin() {
-    return this.authLogin;
-  }
+
   ngOnDestroy() {
     this.inscricao.unsubscribe();
   }
