@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 
 import { FuncionarioService } from './funcionario.service';
 import { Funcionario } from '../shared/models/funcionario';
@@ -9,19 +9,13 @@ import { Funcionario } from '../shared/models/funcionario';
   templateUrl: './funcionario.component.html',
   styleUrls: ['./funcionario.component.css']
 })
-export class FuncionarioComponent implements OnInit, OnDestroy {
+export class FuncionarioComponent implements OnInit {
 
-  funcionarios: Funcionario[] = [];
-  private inscricao: Subscription;
+  funcionarios: Observable<Funcionario[]>;
 
   constructor( private funcionarioService: FuncionarioService ) { }
 
   ngOnInit() {
-    this.inscricao = this.funcionarioService.dados.subscribe(
-      () => this.funcionarios = this.funcionarioService.funcionarios
-    );
-  }
-  ngOnDestroy() {
-    this.inscricao.unsubscribe();
+    this.funcionarios = this.funcionarioService.dados;
   }
 }

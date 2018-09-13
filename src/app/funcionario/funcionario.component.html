@@ -2,10 +2,10 @@
     <div class="col s6">
         <p>Lista de funcionarios</p>
         <div class="collection">
-            <a class="collection-item" 
-                routerLinkActive="active" 
-                *ngFor="let funcionario of funcionarios | keys: 'array' "
-                [routerLink]="[ funcionario.valor.matricula ]"  
+            <a class="collection-item"
+                routerLinkActive="active"
+                *ngFor="let funcionario of funcionarios | async | keys: 'array' "
+                [routerLink]="[ funcionario.valor.matricula ]"
             >{{ funcionario.valor.nome }}</a>
         </div>
     </div>

@@ -11,7 +11,7 @@ import { LoginService } from '../login/login.service';
 export class FuncionarioService {
 
   header: HttpHeaders;
-  dados = new EventEmitter();
+  dados = new EventEmitter<Funcionario[]>();
   resource = '/v1/funcionario/';
   funcionarios: Funcionario[] = [];
 
@@ -23,7 +23,7 @@ export class FuncionarioService {
   private populaFuncionario(response) {
     if (response.resource) {
       this.funcionarios = response.resource.funcionarios.insert;
-      this.dados.emit(true);
+      this.dados.emit(this.funcionarios);
     } else {
       console.log(`${response}`);
     }
